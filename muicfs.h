@@ -17,3 +17,41 @@ int dread(int fd, int blocknum, char *buf);
 
 /* Write a block to disk */
 int dwrite(int fd, int blocknum, char *buf);
+
+struct superblock{
+	char fs_name[28];
+	int* inode_pointer;
+	int* ibitmap_pointer;
+	int* dbitmap_pointer;
+	int* datablock;
+};
+
+struct inode{
+	int size;
+	int* p
+};
+
+struct d_bitmap{
+	int* p;
+	char alloc;
+
+};
+
+struct i_bitmap{
+	int* p;
+	char alloc;
+
+};
+
+struct file{
+	char file_name[28];
+	int* inode_pointer;
+	int filesize;
+};
+
+struct dir{
+	char dir_name[28];
+	int* inode_pointer;
+	int dir_size;
+
+};
