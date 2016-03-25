@@ -32,5 +32,9 @@ muicmkfs:	muicmkfs.c
 rawdisk.o:	rawdisk.c
 	gcc -c -o rawdisk.o rawdisk.c
 
+read: Readfs.c
+	gcc $< -o Readfs rawdisk.o
+	
 clean:
 	rm -f muicfs muicmkfs rawdisk.o
+

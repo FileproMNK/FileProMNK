@@ -25,59 +25,53 @@ myformat(const char *filename, int size)
    * max supported data = 512 byte
    * total space : 16 * 512 byte = */
   /**/
+
+	/* start superblock */
 	int fd = open(DISKFILE, O_RDWR | O_CREAT);
+	superblock *sptr = (superblock *)malloc(sizeof(superblock));
+	strcpy(sptr -> fs_name,"Test File system");
+	print("System name : %s", sptr->fs_name);
+	sptr -> ibitmap_blocknum = 1;
+	sptr -> dbitmap_blocknum = 2;
+	sptr -> inode_blocknum = 3;
 
-	char superb[sizeof(superblock)];
-	char inode1[sizeof(inode)*16];
-	char db[sizeof(d_bitmap)];
-	char ib[sizeof(i_bitmap)];
-	char datab[BLOCKSIZE * 16];
+	dwrite(fd,0,(char *)sptr);
+	/* finish superblock */
 
-	char buf_for_seperb[BLOCKSIZE];
-	char buf_for_inode1[BLOCKSIZE];
-	char buf_for_db[BLOCKSIZE];
-	char buf_for_ib[BLOCKSIZE];
-	char buf_for_datab[BLOCKSIZE];
-
-	int* superb_pointer = &(buf_for_seperb);
-	int* inode1_pointer = &(buf_for_inode1);
-	int* db_pointer = &(buf_for_db);
-	int* ib_pointer = &(buf_for_ib);
-	int* datab_pointer = &(buf_for_datab);
-
-	superblock->inode_pointer = inode1_pointer;
-	superblock->ibitmap_pointer = db_pointer;
-	superblock->dbitmap_pointer = ib_pointer;
-	superblock->datablock_pointer = datab_pointer;
-
-	inode->p = inode1_pointer;
-	d_bitmap->p = db_pointer;
-	i_bitmap->p = ib_pointer;
-
-
-/*put pointer into struct first and then put all to block*/
-
-	strcpy(buf_for_seperb,superblock);
-	strcpy(buf_for_inode1,inode);
-	strcpy(buf_for_db,d_bitmap);
-	strcpy(buf_for_ib,i_bitmap);
-//	strcpy(buf_for_datab,someinfo);
-
-
-
-	dwrite(fd, 0, buf_for_seperb); /*super block*/
-
-	dwrite(fd, 1, buf_for_inode1); /* inode bitmap block */
-
-
-
-	dwrite(fd, 2, buf1); /* data bitmap block */
-
-
-	for (int i = 3; i <= 19; i++){
-		dwrite(fd, i, buf1); /* data inode : size of file , pointer inode */
+	/*start ibitmap*/
+	i_bitmap ibmptr[16];
+	for(int i = 0;i<16;i++){
+		ibmptr[i].little_blocknum = i; // #of inode#
+		ibmptr[i].alloc = 0;
 	}
+	dwrite(fd,1,(char *)ibmptr);
+	/*finish ibitmap*/
 
+	/*start dbitmap*/
+	d_bitmap dbmptr[16];
+	for(int i = 0;i<16;i++){
+		dbmptr[i].little_blocknum = i; // #of inode#
+		dbmptr[i].alloc = 0;
+	}
+	dwrite(fd,2,(char *)dbmptr);
+	/*finish dbitmap*/
+
+	/*start inode */
+	inode inptr[16];
+	for(int i = 0;i<16;i++){
+		inptr[i].big_blocknum = 4+i; // #of inode#
+		inptr[i].size = 512;
+	}
+	dwrite(fd,3,(char *)dbmptr);
+	/*finish inode*/
+
+	/*start datablock*/
+	for(int i=0;i<16;i++){
+		printf("Datablock number = %d",i);
+		char data[512];
+		dwrite(fd,4+i,data);
+	}
+	/*finish datablock*/
 	close(fd);
   return 0;
 }
