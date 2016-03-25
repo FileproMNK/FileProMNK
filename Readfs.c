@@ -23,8 +23,8 @@ int readsuperblock(int fd){
 
 	//sbptr = sbptr+499;
 	printf("superblock = address %x\n",sbptr);
-	printf("superblock info = %s\n",*sbptr);
-//	printf("superblock fs_name = %s ; ibitmap_blocknum = %d ; dbitmap_blocknum = %d ; inode_blocknum = %d", sbptr -> fs_name,sbptr -> ibitmap_blocknum,sbptr -> dbitmap_blocknum,sbptr -> inode_blocknum );
+//	printf("Superblock fs name : %s\n", sbptr->fs_name);
+	printf("superblock fs_name = %s ; ibitmap_blocknum = %d ; dbitmap_blocknum = %d ; inode_blocknum = %d \n", sbptr -> fs_name,sbptr -> ibitmap_blocknum,sbptr -> dbitmap_blocknum,sbptr -> inode_blocknum );
 	return 0;
 }
 

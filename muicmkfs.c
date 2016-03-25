@@ -29,8 +29,7 @@ myformat(const char *filename, int size)
 	/* start superblock */
 	int fd = open(DISKFILE, O_RDWR | O_CREAT);
 	superblock *sptr = (superblock *)malloc(sizeof(superblock));
-	strcpy(sptr -> fs_name,"Test File system");
-	print("System name : %s", sptr->fs_name);
+	strcpy(sptr->fs_name,"Test File System");
 	sptr -> ibitmap_blocknum = 1;
 	sptr -> dbitmap_blocknum = 2;
 	sptr -> inode_blocknum = 3;
