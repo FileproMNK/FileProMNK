@@ -61,13 +61,16 @@ myformat(const char *filename, int size)
 		inptr[i].big_blocknum = 4+i; // #of inode#
 		inptr[i].size = 512;
 	}
-	dwrite(fd,3,(char *)dbmptr);
+	dwrite(fd,3,(char *)inptr);
 	/*finish inode*/
 
 	/*start datablock*/
 	for(int i=0;i<16;i++){
 		printf("Datablock number = %d",i);
 		char data[512];
+		for(int j =0;i<512;i++){
+			data[j] = i%2;
+		}
 		dwrite(fd,4+i,data);
 	}
 	/*finish datablock*/

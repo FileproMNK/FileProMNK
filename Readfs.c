@@ -20,33 +20,61 @@ int readsuperblock(int fd){
 	superblock *sbptr = (superblock *)malloc(sizeof(superblock));
 
 	dread(fd,0,sbptr);
-
-	//sbptr = sbptr+499;
+	printf("\nthis is superblock test\n");
 	printf("superblock = address %x\n",sbptr);
-//	printf("Superblock fs name : %s\n", sbptr->fs_name);
-	printf("superblock fs_name = %s ; ibitmap_blocknum = %d ; dbitmap_blocknum = %d ; inode_blocknum = %d \n", sbptr -> fs_name,sbptr -> ibitmap_blocknum,sbptr -> dbitmap_blocknum,sbptr -> inode_blocknum );
+	printf("superblock fs_name = %s ;\n ibitmap_blocknum = %d ; dbitmap_blocknum = %d ; inode_blocknum = %d \n", sbptr -> fs_name,sbptr -> ibitmap_blocknum,sbptr -> dbitmap_blocknum,sbptr -> inode_blocknum );
+	printf("this is the end of superblock test\n");
 	return 0;
 }
 
 int readibitmap(int fd){
-	//dread(fd,)
-	//printf("inode number : %d , file size pointed to inode : %d" inode -> big_blocknum, inode ->);
+	i_bitmap ibmptr[16];
+	dread(fd,1,ibmptr);
+	printf("\nthis is ibitmap test\n");
+	for(int i = 0;i<16;i++){
+		printf("ibitmap block %d;contain pointer to inode block %d and alloc = %d\n",i,ibmptr[i].little_blocknum,ibmptr[i].alloc);
+	}
+	printf("this is the end of ibitmap test\n");
 	return 0;
 }
 int readdbitmap(int fd){
-	//dread(fd);
+	d_bitmap dbmptr[16];
+	dread(fd,2,dbmptr);
+	printf("\nthis is dbitmap test\n");
+	for(int i = 0;i<16;i++){
+		printf("dbitmap block %d;contain pointer to data block %d and alloc = %d\n",i,dbmptr[i].little_blocknum,dbmptr[i].alloc);
+	}
+	printf("this is the end of dbitmap test\n");
 	return 0;
 }
 int readinode(int fd){
-	//dread(fd,)
-//printf("inode number : %d , file size pointed to inode : %d" inode -> big_blocknum, inode ->);
+	inode inptr[16];
+	dread(fd,3,inptr);
+	printf("\nthis is inode test\n");
+	for(int i = 0;i<16;i++){
+		printf("inode block %d;contain pointer to data block %d and size = %d\n",i,inptr[i].big_blocknum,inptr[i].size);
+	}
+	printf("this is the end of inode test\n");
 	return 0;
 }
 
+int readdatablock(int fd,int blocknum){
+	char data[512];
+	dread(fd,blocknum,data);
+	for(int i = 0;i<512;i++){
+		printf("data = %s",data[i]);
+	}
+	return 0;
+}
 
 int main(int argc, char** argv) {
 	int fd = open(DISKFILE, O_RDWR | O_CREAT);
-	readsuperblock(fd);
+	printf("Starting read");
+	//readsuperblock(fd);
+	//readibitmap(fd);
+	//readdbitmap(fd);
+	readinode(fd);
+	//readdatablock(fd,int blocknum);
 	close(fd);
 	return 0;
 }
