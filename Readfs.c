@@ -28,11 +28,11 @@ int readsuperblock(int fd){
 }
 
 int readibitmap(int fd){
-	i_bitmap ibmptr[16]= (i_bitmap *)malloc(sizeof(i_bitmap)*16);
-	dread(fd,1,ibmptr);
+	ibitmaparray *ibmarptr = (ibitmaparray *)malloc(sizeof(ibitmaparray));
+	dread(fd,1,ibmarptr);
 	printf("\nthis is ibitmap test\n");
 	for(int i = 0;i<16;i++){
-		printf("ibitmap block %d;contain pointer to inode block %d and alloc = %d\n",i,ibmptr[i].little_blocknum,ibmptr[i].alloc);
+		printf("ibitmap block %d;contain pointer to inode block %d and alloc = %d\n",i,ibmarptr -> array[i].little_blocknum,ibmarptr -> array[i].alloc);
 	}
 	printf("this is the end of ibitmap test\n");
 	return 0;
@@ -70,10 +70,10 @@ int readdatablock(int fd,int blocknum){
 int main(int argc, char** argv) {
 	int fd = open(DISKFILE, O_RDWR | O_CREAT);
 	printf("Starting read");
-	//readsuperblock(fd);
+	readsuperblock(fd);
 	//readibitmap(fd);
 	//readdbitmap(fd);
-	readinode(fd);
+	//readinode(fd);
 	//readdatablock(fd,int blocknum);
 	close(fd);
 	return 0;

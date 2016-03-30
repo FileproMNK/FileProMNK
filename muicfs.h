@@ -36,11 +36,17 @@ typedef struct d_bitmap{
 
 } d_bitmap;
 
+
+
 typedef struct i_bitmap{
 	int little_blocknum;
 	char alloc;
 
 } i_bitmap;
+
+typedef struct ibitmaparray {
+	i_bitmap array[16];
+}ibitmaparray;
 
 typedef struct file{
 	char file_name[28];
@@ -54,5 +60,3 @@ typedef struct dir{
 	int dir_size;
 
 } directory;
-
-

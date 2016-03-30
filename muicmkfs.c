@@ -38,13 +38,12 @@ myformat(const char *filename, int size)
 	/* finish superblock */
 
 	/*start ibitmap*/
-	i_bitmap ibmptr[16] = (i_bitmap *)malloc(sizeof(i_bitmap)*16);
+	ibitmaparray *ibmarptr = (ibitmaparray *)malloc(sizeof(ibitmaparray));
 	for(int i = 0;i<16;i++){
-
-		ibmptr[i].little_blocknum = i; // #of inode#
-		ibmptr[i].alloc = 0;
+		ibmarptr -> array[i].little_blocknum = i; // #of inode#
+		ibmarptr -> array[i].alloc = 0;
 	}
-	dwrite(fd,1,(char *)ibmptr);
+	dwrite(fd,1,(char *)ibmarptr);
 	/*finish ibitmap*/
 
 	/*start dbitmap*/
