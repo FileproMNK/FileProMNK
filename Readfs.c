@@ -28,7 +28,7 @@ int readsuperblock(int fd){
 }
 
 int readibitmap(int fd){
-	i_bitmap ibmptr[16];
+	i_bitmap ibmptr[16]= (i_bitmap *)malloc(sizeof(i_bitmap)*16);
 	dread(fd,1,ibmptr);
 	printf("\nthis is ibitmap test\n");
 	for(int i = 0;i<16;i++){

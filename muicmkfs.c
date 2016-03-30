@@ -38,8 +38,9 @@ myformat(const char *filename, int size)
 	/* finish superblock */
 
 	/*start ibitmap*/
-	i_bitmap ibmptr[16];
+	i_bitmap ibmptr[16] = (i_bitmap *)malloc(sizeof(i_bitmap)*16);
 	for(int i = 0;i<16;i++){
+
 		ibmptr[i].little_blocknum = i; // #of inode#
 		ibmptr[i].alloc = 0;
 	}
