@@ -33,10 +33,10 @@ myformat(const char *filename, int size)
 	sptr -> ibitmap_blocknum = 1;
 	sptr -> dbitmap_blocknum = 2;
 	sptr -> inode_blocknum = 3;
-
+	
 	dwrite(fd,0,(char *)sptr);
 	/* finish superblock */
-
+	
 	/*start ibitmap*/
 	i_bitmap ibmptr[16];
 	for(int i = 0;i<16;i++){
@@ -45,7 +45,7 @@ myformat(const char *filename, int size)
 	}
 	dwrite(fd,1,(char *)ibmptr);
 	/*finish ibitmap*/
-
+	
 	/*start dbitmap*/
 	d_bitmap dbmptr[16];
 	for(int i = 0;i<16;i++){
@@ -54,7 +54,7 @@ myformat(const char *filename, int size)
 	}
 	dwrite(fd,2,(char *)dbmptr);
 	/*finish dbitmap*/
-
+	
 	/*start inode */
 	inode inptr[16];
 	for(int i = 0;i<16;i++){
@@ -63,7 +63,7 @@ myformat(const char *filename, int size)
 	}
 	dwrite(fd,3,(char *)inptr);
 	/*finish inode*/
-
+	
 	/*start datablock*/
 	for(int i=0;i<16;i++){
 		printf("Datablock number = %d",i);
