@@ -9,6 +9,7 @@
    Currently, it looks in the current directory.  You may want
    to replace this with an absolute path. */
 #define DISKFILE "disk.txt"
+#define BLOCKENTRY 16
 
 /* You must use the following two calls to read from your "disk" */
 
@@ -25,14 +26,13 @@ typedef struct inode{
 	int size;
 } inode;
 
-typedef struct ibitmap{
-	int freeinodenum[16];
-}ibitmap;
-
-typedef struct dbitmap{
-	int freedatanum[16];
-}dbitmap;
-
+typedef struct superblock{
+	char filesystemname[28];
+	int ibitmapblknum;
+	int dbitmapblknum;
+	int inodeblknum;
+	int rootinodeblknum = 1;
+}superblock;
 
 typedef struct file{
 	char filename[28];

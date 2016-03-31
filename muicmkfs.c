@@ -28,23 +28,41 @@ myformat(const char *filename, int size)
 
 	/* start superblock */
 	int fd = open(DISKFILE, O_RDWR | O_CREAT);
-
+	superblock *sptr = (superblock *)malloc(sizeof(BLOCKSIZE));
+	strcpy(sptr->filesystemname,"Test File System");
+	sptr -> ibitmapblknum = 1;
+	sptr -> dbitmapblknum = 2;
+	sptr -> inodeblknum = 3;
+	dwrite(fd,0,(char *)sptr);
+	free(sptr);
 	/* finish superblock */
 
 	/*start ibitmap*/
-
+	char *ibitmap = (char *)malloc(sizeof(char)*BLOCKSIZE);
+	for(int = 0;i<BLOCKSIZE;i++){
+		ibitmap[i]=0;
+	}
+	dwrite(fd,1,ibitmap);
+	free(ibitmap);
 	/*finish ibitmap*/
 
 	/*start dbitmap*/
-
+	char *dbitmap = (char *)malloc(sizeof(char)*BLOCKSIZE);
+	for(int = 0;i<BLOCKSIZE;i++){
+		dbitmap[i]=0;
+	}
+	dwrite(fd,2,dbitmap);
+	free(dbitmap);
 	/*finish dbitmap*/
 
 	/*start inode */
+	inode *inode = (inode *)malloc(sizeof(inode)*);
+	for(int i = 0;i<16;i++){
 
+	}
 	/*finish inode*/
 
-	/*start datablock*/
-	
+	/*start datablock (root)*/
 	/*finish datablock*/
 	close(fd);
   return 0;
