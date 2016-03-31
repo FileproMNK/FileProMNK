@@ -70,10 +70,10 @@ int readdatablock(int fd,int blocknum){
 int main(int argc, char** argv) {
 	int fd = open(DISKFILE, O_RDWR | O_CREAT);
 	printf("Starting read");
-	//readsuperblock(fd);
-	//readibitmap(fd);
-	//readdbitmap(fd);
-	readinode(fd);
+	readsuperblock(fd);
+	readibitmap(fd);
+	readdbitmap(fd);
+	//readinode(fd);
 	//readdatablock(fd,int blocknum);
 	close(fd);
 	return 0;

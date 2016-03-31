@@ -28,51 +28,23 @@ myformat(const char *filename, int size)
 
 	/* start superblock */
 	int fd = open(DISKFILE, O_RDWR | O_CREAT);
-	superblock *sptr = (superblock *)malloc(sizeof(superblock));
-	strcpy(sptr->fs_name,"Test File System");
-	sptr -> ibitmap_blocknum = 1;
-	sptr -> dbitmap_blocknum = 2;
-	sptr -> inode_blocknum = 3;
-	
-	dwrite(fd,0,(char *)sptr);
+
 	/* finish superblock */
-	
+
 	/*start ibitmap*/
-	i_bitmap ibmptr[16];
-	for(int i = 0;i<16;i++){
-		ibmptr[i].little_blocknum = i; // #of inode#
-		ibmptr[i].alloc = 0;
-	}
-	dwrite(fd,1,(char *)ibmptr);
+
 	/*finish ibitmap*/
-	
+
 	/*start dbitmap*/
-	d_bitmap dbmptr[16];
-	for(int i = 0;i<16;i++){
-		dbmptr[i].little_blocknum = i; // #of inode#
-		dbmptr[i].alloc = 0;
-	}
-	dwrite(fd,2,(char *)dbmptr);
+
 	/*finish dbitmap*/
-	
+
 	/*start inode */
-	inode inptr[16];
-	for(int i = 0;i<16;i++){
-		inptr[i].big_blocknum = 4+i; // #of inode#
-		inptr[i].size = 512;
-	}
-	dwrite(fd,3,(char *)inptr);
+
 	/*finish inode*/
-	
+
 	/*start datablock*/
-	for(int i=0;i<16;i++){
-		printf("Datablock number = %d",i);
-		char data[512];
-		for(int j =0;i<512;i++){
-			data[j] = i%2;
-		}
-		dwrite(fd,4+i,data);
-	}
+	
 	/*finish datablock*/
 	close(fd);
   return 0;
