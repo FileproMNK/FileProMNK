@@ -59,7 +59,7 @@ myformat(const char *filename, int size)
 	/*start inode */
 	inode *inodeptr = (inode *)malloc(sizeof(inode)*16);
 	for(int i = 0;i<16;i++){
-		inodeptr[i].filet = 0;
+		strcpy(inodeptr[i].filet,"file");
 		inodeptr[i].datablknum = i+4;
 		inodeptr[i].size = 0;
 	}

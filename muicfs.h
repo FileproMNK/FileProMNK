@@ -21,7 +21,7 @@ int dwrite(int fd, int blocknum, char *buf);
 
 /* start coding */
 typedef struct inode{
-	int filet;
+	char filet[24];
 	int datablknum;
 	int size;
 }inode;
