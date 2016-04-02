@@ -21,17 +21,17 @@ int dwrite(int fd, int blocknum, char *buf);
 
 /* start coding */
 typedef struct inode{
-	char filetype;
+	int filet;
 	int datablknum;
 	int size;
-} inode;
+}inode;
 
 typedef struct superblock{
 	char filesystemname[28];
 	int ibitmapblknum;
 	int dbitmapblknum;
 	int inodeblknum;
-	int rootinodeblknum = 1;
+	int rootinodeblknum;
 }superblock;
 
 typedef struct file{
@@ -43,4 +43,4 @@ typedef struct directory{
 	int myinode;
 	int mymotherinode;
 	file children[15];
-}
+}dir;

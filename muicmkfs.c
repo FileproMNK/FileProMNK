@@ -33,13 +33,14 @@ myformat(const char *filename, int size)
 	sptr -> ibitmapblknum = 1;
 	sptr -> dbitmapblknum = 2;
 	sptr -> inodeblknum = 3;
+	sptr -> rootinodeblknum = 1;
 	dwrite(fd,0,(char *)sptr);
 	free(sptr);
 	/* finish superblock */
 
 	/*start ibitmap*/
 	char *ibitmap = (char *)malloc(sizeof(char)*BLOCKSIZE);
-	for(int = 0;i<BLOCKSIZE;i++){
+	for(int i = 0;i<BLOCKSIZE;i++){
 		ibitmap[i]=0;
 	}
 	dwrite(fd,1,ibitmap);
@@ -48,7 +49,7 @@ myformat(const char *filename, int size)
 
 	/*start dbitmap*/
 	char *dbitmap = (char *)malloc(sizeof(char)*BLOCKSIZE);
-	for(int = 0;i<BLOCKSIZE;i++){
+	for(int i = 0;i<BLOCKSIZE;i++){
 		dbitmap[i]=0;
 	}
 	dwrite(fd,2,dbitmap);
@@ -56,13 +57,18 @@ myformat(const char *filename, int size)
 	/*finish dbitmap*/
 
 	/*start inode */
-	inode *inode = (inode *)malloc(sizeof(inode)*);
+	inode *inodeptr = (inode *)malloc(sizeof(inode)*16);
 	for(int i = 0;i<16;i++){
-
+		inodeptr[i].filet = 0;
+		inodeptr[i].datablknum = i+4;
+		inodeptr[i].size = 0;
 	}
+	dwrite(fd,3,(char *)inodeptr);
+	free(inodeptr);
 	/*finish inode*/
 
 	/*start datablock (root)*/
+	/*no need to initialize*/
 	/*finish datablock*/
 	close(fd);
   return 0;
