@@ -9,7 +9,6 @@
    Currently, it looks in the current directory.  You may want
    to replace this with an absolute path. */
 #define DISKFILE "disk.txt"
-#define BLOCKENTRY 16
 
 /* You must use the following two calls to read from your "disk" */
 
@@ -21,18 +20,17 @@ int dwrite(int fd, int blocknum, char *buf);
 
 /* start coding */
 typedef struct inode{
-	int filet;
+	char filet[24];
 	int datablknum;
 	int size;
 }inode;
 
 typedef struct superblock{
-	char filesystemname[28];
-	int ibitmapblknum;
-	int dbitmapblknum;
-	int inodeblknum;
-	int rootinodeblknum;
-}superblock;
+	char fs_name[28];
+	int ibitmap_blocknum;
+	int dbitmap_blocknum;
+	int inode_blocknum;
+} superblock;
 
 typedef struct file{
 	char filename[28];

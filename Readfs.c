@@ -17,30 +17,29 @@
 
 
 int readsuperblock(int fd){
+	superblock *sbptr = (superblock *)malloc(sizeof(superblock));
+
+	dread(fd,0,sbptr);
 	printf("\nthis is superblock test\n");
-	superblock *sptr = (superblock *)malloc(sizeof(BLOCKSIZE));
-	dread(fd,0,sptr);
-	printf("our filesystemname is %s\n",sptr->filesystemname);
-	printf("ibitmapblknum is %d\n",sptr -> ibitmapblknum);
-	printf("dbitmapblknum is %d\n",sptr -> dbitmapblknum);
-	printf("inodeblknum is %d\n",sptr -> inodeblknum);
-	printf("rootinodeblknum is %d\n",sptr -> rootinodeblknum);
-	free(sptr);
+	printf("superblock = address %x\n",sbptr);
+	printf("superblock fs_name = %s ;\n ibitmap_blocknum = %d ; dbitmap_blocknum = %d ; inode_blocknum = %d \n", sbptr -> fs_name,sbptr -> ibitmap_blocknum,sbptr -> dbitmap_blocknum,sbptr -> inode_blocknum );
 	printf("this is the end of superblock test\n");
 	return 0;
 }
 
 int readibitmap(int fd){
 	/*
-	i_bitmap ibmptr[16];
-	dread(fd,1,ibmptr);
 	printf("\nthis is ibitmap test\n");
-	for(int i = 0;i<16;i++){
-		printf("ibitmap block %d;contain pointer to inode block %d and alloc = %d\n",i,ibmptr[i].little_blocknum,ibmptr[i].alloc);
+	char *ibitmap = (char *)malloc(sizeof(char)*BLOCKSIZE);
+	dread(fd,1,ibitmap);
+	for(int i = 0;i<BLOCKSIZE;i++){
+		printf("ibitmap %d is %c\n",i,ibitmap[i]);
 	}
+	free(ibitmap);
 	printf("this is the end of ibitmap test\n");
 	*/
 	return 0;
+
 }
 int readdbitmap(int fd){
 	/*
